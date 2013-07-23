@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/beginner/!svn/ver/51/gaoda/DoubanMovie
+END
+test_server.py
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/beginner/!svn/ver/51/gaoda/DoubanMovie/test_server.py
+END
+tc.py
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/beginner/!svn/ver/57/gaoda/DoubanMovie/tc.py
+END
+ts.py
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/beginner/!svn/ver/57/gaoda/DoubanMovie/ts.py
+END
+mydb.db
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/beginner/!svn/ver/51/gaoda/DoubanMovie/mydb.db
+END
+my2db.db
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/beginner/!svn/ver/57/gaoda/DoubanMovie/my2db.db
+END
+test_client.py
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/beginner/!svn/ver/51/gaoda/DoubanMovie/test_client.py
+END

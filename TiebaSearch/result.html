@@ -1,0 +1,27 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<body>
+	<h4>查询结果（总共{{num}}项)：</h4>
+	{% for result in results %}  
+	<table border="1">
+	<tr>
+		<td>帖子：</td>
+		<td>{{escape(result["title"])}}</td>
+	</tr> 
+	<tr>
+		<td>回复：</td>
+		<td>{{escape(result["reply"]["content"])}}</td>
+	</tr>
+	<tr>
+		<td>名字：</td>
+		<td>{{escape(result["reply"]["name"])}}</td>
+	</tr>
+	<tr>
+		<td>时间：</td>
+		<td>{{escape(result["reply"]["time"])}}</td>
+	</tr>			  
+	</table>
+	<h4>----------------------------------------------</h4>
+	{% end %}
+	</body>
+</html>

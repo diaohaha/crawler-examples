@@ -1,0 +1,3 @@
+1.运行make_index.py建立索引
+2.运行search.py黑框查询
+3.运行view_search.py 访问127.0.0.1：8080

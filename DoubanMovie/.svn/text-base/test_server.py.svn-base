@@ -1,0 +1,46 @@
+# -*- coding: utf-8 -*-
+import socket
+import urllib
+import json
+import string
+
+import sys
+reload(sys)
+sys.setdefaultencoding( "utf-8" )
+
+
+
+address = ('127.0.0.1', 8006)  
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # s = socket.socket()  
+s.bind(address)  # Socket 绑定到一个特定的地址和端口
+s.listen(5)  
+print "server worked."
+print "waiting for connect....."  	
+ss, addr = s.accept()  
+print 'got connected from',addr  
+ 
+temp=ss.recv(512)
+key=temp.split("_")[0] 
+
+start=temp.split("_")[1] 
+count=temp.split("_")[2]
+print key,start,count
+url = "http://api.douban.com/v2/movie/search?q="+key+"&start="+start+"&count="+count
+page=urllib.urlopen(url)
+data=page.read()
+ddata=json.loads(data)
+i=int(start)
+while i < int(count)+int(start):
+	temp_title=ddata["subjects"][i]["title"]
+	temp_avg=ddata["subjects"][i]["rating"]["average"]
+	temp_collect=ddata["subjects"][i]["collect_count"]
+	temp_subtype=ddata["subjects"][i]["subtype"]
+	temp_year=ddata["subjects"][i]["year"]
+	temp=temp_title+"_"+str(temp_collect)+"_"+str(temp_avg)+"_"+temp_subtype+"_"+str(temp_year)
+	print temp
+	ss.send (temp)
+	i=i+1
+ss.close()  
+s.close() 
+
+

@@ -1,0 +1,105 @@
+# -*- coding: utf-8 -*-
+import socket  
+from sqlalchemy import *
+from sqlalchemy.orm import *
+import string
+import urllib
+import json
+
+import sys
+reload(sys)
+sys.setdefaultencoding( "utf-8" )
+
+
+
+
+def open_client():   
+	address = ('127.0.0.1', 8006)  
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  
+	s.connect(address)   
+	temp_serach=raw_input("please input the key word you want to find:")
+	temp_bnum=raw_input("please input the begin number you want find:")
+	temp_num=raw_input("please input the number you want found:")
+	temp=temp_serach+"_"+temp_bnum+"_"+temp_num
+	s.send(temp)
+	while True:
+		temp=s.recv(1024)
+		if not len(temp):
+			break
+		temp_movie=movie()
+		temp_movie.title=unicode(temp.split("_")[0]) 
+		temp_movie.collect=temp.split("_")[1]
+		temp_movie.avggrade=temp.split("_")[2]
+		temp_movie.subtype=temp.split("_")[3]
+		temp_movie.year=temp.split("_")[4] 
+		session.add(temp_movie) 
+		print temp 
+	session.flush()  
+	s.close()  
+
+
+
+
+#建立引擎
+engine = create_engine('sqlite:///mydb.db')#使用相对路径打开数据库
+
+#类定义
+class movie(object):
+	def _init_(self,title,collect,avggrade,subtype,year):
+		self.title=title
+		self.collect=collect
+		self.avggrade
+		self.subtype
+		self.year=year
+
+		
+#建立映射
+metadata=MetaData(engine)
+moive_table = Table('moive', metadata,  
+	Column('title', String, primary_key=True),  
+	Column('collect', String),  
+	Column('avggrade', String),  
+	Column('subtype', String),
+	Column('year', String)
+)  
+
+metadata.create_all(engine)
+mapper(movie , moive_table)
+
+
+#session对象连接引擎
+session=sessionmaker(bind=engine)
+session=create_session() 
+
+
+
+def main():
+	while True:
+		print "************************************************"
+		print "             豆瓣api 1.0      "
+		print "************************************************"
+		print "1.历史记录"
+		print "2.电影查询"
+		print "3.退出"
+		print "************************************************"
+		cmd=raw_input( "input a command:")
+		if cmd=='1':
+			i=0
+			print "|","收藏数".rjust(13),"|","平均分".rjust(6),"|","类型".rjust(9),"|","年份".rjust(8),"|","电影名".rjust(10),"|"
+			print "******************************************************************************"
+			for temp_movie in session.query(movie).all():
+				print "|",temp_movie.collect.rjust(10),"|",temp_movie.avggrade.rjust(6),"|",temp_movie.subtype.rjust(8),"|",temp_movie.year.rjust(6),"|",temp_movie.title.rjust(10)
+				i=i+1	
+			if i=='0':
+				print "no record!"
+			print "******************************************************************************"	
+		elif cmd=='2':
+			open_client()
+		elif cmd=='3':
+			break
+		else:
+			print "input error! reput:"	
+	print "thank you for using!"		
+			
+main()			
+		
